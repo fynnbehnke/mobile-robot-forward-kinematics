@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<package>
+  <name>mecanum_drive_gazebo</name>
+  <version>1.0.0</version>
+  <description>A omnidirectional mobile robot with four swedish wheels simulation for VMR purposes</description>
+
+  <maintainer email="fynn.behnke@gmail.com">Fynn Behnke</maintainer>
+
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+</package>

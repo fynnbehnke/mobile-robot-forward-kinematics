@@ -1,0 +1,210 @@
+<?xml version='1.0'?>
+
+<sdf version='1.4'>
+
+<model name="mecanumdrive">
+
+<static>false</static>
+
+    <link name='chassis'>
+        <pose>0 0 0.1 0 0 0</pose>
+
+        <inertial>
+            <mass>10.0</mass>
+            <pose>0.0 0 0.1 0 0 0</pose>
+            <inertia>
+                <ixx>0.5</ixx>
+                <iyy>1.0</iyy>
+                <izz>0.1</izz>
+            </inertia>
+        </inertial>
+
+        <collision name='collision'>
+            <geometry>
+                <box>
+                    <size>0.4 0.2 0.1</size>
+                </box>
+            </geometry>
+        </collision>
+
+        <visual name='visual'>
+            <pose>0 0 0.0 0 0 0</pose>
+            <geometry>
+                <box>
+                    <size>0.4 0.2 0.1</size>
+                </box>
+            </geometry>
+        </visual>
+    </link>
+
+    <link name="wheel1">
+        <pose>0.2 0.125 0.1 -1.5707963267949 0 0</pose>
+
+        <collision name="collision">
+            <geometry>
+                <cylinder>
+                    <radius>0.1</radius>
+                    <length>0.05</length>
+                </cylinder>
+            </geometry>
+
+            <surface>
+                <friction>
+                    <ode>
+                        <slip1>1.0</slip1>
+                        <slip2>1.0</slip2>
+                    </ode>
+                </friction>
+            </surface>
+        </collision>
+
+        <visual name="visual">
+            <geometry>
+                <cylinder>
+                    <radius>0.1</radius>
+                    <length>0.05</length>
+                </cylinder>
+            </geometry>
+        </visual>
+    </link>
+
+    <link name="wheel2">
+        <pose>0.2 -0.125 0.1 1.5707963267949 0 0</pose>
+
+        <collision name="collision">
+            <geometry>
+                <cylinder>
+                    <radius>0.1</radius>
+                    <length>0.05</length>
+                </cylinder>
+            </geometry>
+
+            <surface>
+                <friction>
+                    <ode>
+                        <slip1>1.0</slip1>
+                        <slip2>1.0</slip2>
+                    </ode>
+                </friction>
+            </surface>
+        </collision>
+
+        <visual name="visual">
+            <geometry>
+                <cylinder>
+                    <radius>0.1</radius>
+                    <length>0.05</length>
+                </cylinder>
+            </geometry>
+        </visual>
+    </link>
+
+    <link name="wheel3">
+        <pose>-0.2 0.125 0.1 -1.5707963267949 0 0</pose>
+
+        <collision name="collision">
+            <geometry>
+                <cylinder>
+                    <radius>0.1</radius>
+                    <length>0.05</length>
+                </cylinder>
+            </geometry>
+
+            <surface>
+                <friction>
+                    <ode>
+                        <slip1>1.0</slip1>
+                        <slip2>1.0</slip2>
+                    </ode>
+                </friction>
+            </surface>
+        </collision>
+
+        <visual name="visual">
+            <geometry>
+                <cylinder>
+                    <radius>0.1</radius>
+                    <length>0.05</length>
+                </cylinder>
+            </geometry>
+        </visual>
+    </link>
+
+    <link name="wheel4">
+        <pose>-0.2 -0.125 0.1 1.5707963267949 0 0</pose>
+
+        <collision name="collision">
+            <geometry>
+                <cylinder>
+                    <radius>0.1</radius>
+                    <length>0.05</length>
+                </cylinder>
+            </geometry>
+
+            <surface>
+                <friction>
+                    <ode>
+                        <slip1>1.0</slip1>
+                        <slip2>1.0</slip2>
+                    </ode>
+                </friction>
+            </surface>
+        </collision>
+
+        <visual name="visual">
+            <geometry>
+                <cylinder>
+                    <radius>0.1</radius>
+                    <length>0.05</length>
+                </cylinder>
+            </geometry>
+        </visual>
+    </link>
+
+    <joint type="revolute" name="wheel1_hinge">
+        <pose>0 0 -0.025 0 0 0</pose>
+        <child>wheel1</child>
+        <parent>chassis</parent>
+        <axis>
+            <xyz>0 1 0</xyz>
+        </axis>
+    </joint>
+
+    <joint type="revolute" name="wheel2_hinge">
+        <pose>0 0 -0.025 0 0 0</pose>
+        <child>wheel2</child>
+        <parent>chassis</parent>
+        <axis>
+            <xyz>0 1 0</xyz>
+        </axis>
+    </joint>
+
+    <joint type="revolute" name="wheel3_hinge">
+        <pose>0 0 -0.025 0 0 0</pose>
+        <child>wheel3</child>
+        <parent>chassis</parent>
+        <axis>
+            <xyz>0 1 0</xyz>
+        </axis>
+    </joint>
+
+    <joint type="revolute" name="wheel4_hinge">
+        <pose>0 0 -0.025 0 0 0</pose>
+        <child>wheel4</child>
+        <parent>chassis</parent>
+        <axis>
+            <xyz>0 1 0</xyz>
+        </axis>
+    </joint>
+
+    <plugin name="object_controller" filename="libgazebo_ros_planar_move.so">
+        <commandTopic>cmd_vel</commandTopic>
+        <odometryTopic>odom</odometryTopic>
+        <odometryFrame>odom</odometryFrame>
+        <odometryRate>20.0</odometryRate>
+        <robotBaseFrame>chassis</robotBaseFrame>
+    </plugin>
+
+</model>
+
+</sdf>
