@@ -1,0 +1,5 @@
+<launch>
+    <include file="$(find mecanum_drive_gazebo)/launch/main.launch" />
+    <node name="mecanum_motor_sim" pkg="simulation_control" type="motorspeed_sim_mecanum.py" />
+    <node name="odom_sim" pkg="simulation_control" type="controls.py" />
+</launch>
