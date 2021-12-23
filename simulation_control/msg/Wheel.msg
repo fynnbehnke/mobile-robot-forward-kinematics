@@ -1,3 +1,2 @@
 float64 radius
-float64 steering_angle
 float64 angular_velocity
