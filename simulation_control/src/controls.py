@@ -96,8 +96,8 @@ def callback(data):
     end = time.time()
 
     theta += (control_data.angular.z*(end - start))
-    x += (control_data.linear.x*(end - start))
-    y += (control_data.linear.y*(end - start))
+    x += ((control_data.linear.x*(end - start))*math.cos(theta) - (control_data.linear.y*(end - start))*math.sin(theta))
+    y += ((control_data.linear.x*(end - start))*math.sin(theta) + (control_data.linear.y*(end - start))*math.cos(theta))
 
     print("X_i = %f\nY_i = %f\nTheta_i = %f\n\n\n\n" %(x, y, theta))
     

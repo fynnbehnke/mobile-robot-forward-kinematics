@@ -14,7 +14,7 @@ if __name__ == '__main__':
     wheel_right.angular_velocity = 1
 
     wheel_left.radius = 0.1
-    wheel_left.angular_velocity = 1
+    wheel_left.angular_velocity = 2
 
     sim_data.robot_type = 1
     sim_data.width = 0.25
