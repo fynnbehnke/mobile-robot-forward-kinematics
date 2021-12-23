@@ -1,5 +1,5 @@
 <launch>
     <include file="$(find omni_drive_gazebo)/launch/main.launch" />
     <node name="omni_motor_sim" pkg="simulation_control" type="motorspeed_sim_omni.py" />
-    <node name="odom_sim" pkg="simulation_control" type="controls.py" />
+    <node name="odom_sim" pkg="simulation_control" type="controls.py" output="screen" />
 </launch>
