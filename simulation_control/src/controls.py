@@ -64,10 +64,6 @@ def calculate_odom_values(robot_type, jacobian, wheel_speed, curr_orientation):
     values.angular.x = 0
     values.angular.y = 0
 
-    rot_matrix = np.array( [[math.cos(curr_orientation),-math.sin(curr_orientation),0],
-                            [math.sin(curr_orientation),math.cos(curr_orientation),0],
-                            [0,0,1]])
-
     if(robot_type == 2):
         j_1p = np.dot(np.linalg.inv(np.dot(np.transpose(jacobian),jacobian)),np.transpose(jacobian))
         temp_values = np.dot(j_1p,wheel_speed)
