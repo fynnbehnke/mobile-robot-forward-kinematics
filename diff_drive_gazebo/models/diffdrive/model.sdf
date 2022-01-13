@@ -7,17 +7,7 @@
 <static>false</static>
 
     <link name='chassis'>
-        <pose>0 0 0.1 0 0 0</pose>
-
-        <inertial>
-            <mass>10.0</mass>
-            <pose>0.0 0 0.1 0 0 0</pose>
-            <inertia>
-                <ixx>0.5</ixx>
-                <iyy>1.0</iyy>
-                <izz>0.1</izz>
-            </inertia>
-        </inertial>
+        <pose>0 0 0.07 0 0 0</pose>
 
         <collision name='collision'>
             <geometry>
@@ -28,7 +18,7 @@
         </collision>
 
         <visual name='visual'>
-            <pose>0 0 0.0 0 0 0</pose>
+            <pose>0 0 0 0 0 0</pose>
             <geometry>
                 <box>
                     <size>.4 .2 .1</size>
@@ -40,7 +30,7 @@
             <pose>-0.15 0 -0.05 0 0 0</pose>
             <geometry>
                 <sphere>
-                    <radius>.05</radius>
+                    <radius>.0035</radius>
                 </sphere>
             </geometry>
 
@@ -60,7 +50,7 @@
             <pose>-0.15 0 -0.05 0 0 0</pose>
             <geometry>
                 <sphere>
-                    <radius>.05</radius>
+                    <radius>.0035</radius>
                 </sphere>
             </geometry>
         </visual>
@@ -69,7 +59,7 @@
             <pose>0.15 0 -0.05 0 0 0</pose>
             <geometry>
                 <sphere>
-                    <radius>.05</radius>
+                    <radius>.0035</radius>
                 </sphere>
             </geometry>
 
@@ -89,26 +79,28 @@
             <pose>0.15 0 -0.05 0 0 0</pose>
             <geometry>
                 <sphere>
-                    <radius>.05</radius>
+                    <radius>.0035</radius>
                 </sphere>
             </geometry>
         </visual>
     </link>
 
     <link name="left_wheel">
-        <pose>0 0.125 0.1 -1.5707963267949 0 0</pose>
+        <pose>0 0.104 0.07 -1.5707963267949 0 0</pose>
 
         <collision name="collision">
             <geometry>
                 <cylinder>
-                    <radius>.1</radius>
-                    <length>.05</length>
+                    <radius>.07</radius>
+                    <length>.008</length>
                 </cylinder>
             </geometry>
 
             <surface>
                 <friction>
                     <ode>
+                        <mu>1.0</mu>
+                        <mu2>1.0</mu2>
                         <slip1>0</slip1>
                         <slip2>0</slip2>
                     </ode>
@@ -119,27 +111,40 @@
         <visual name="visual">
             <geometry>
                 <cylinder>
-                    <radius>.1</radius>
-                    <length>.05</length>
+                    <radius>.07</radius>
+                    <length>.008</length>
                 </cylinder>
             </geometry>
         </visual>
+
+        <inertial>
+            <mass>.014</mass>
+            <pose>0 0 0 0 0 0</pose>
+            <inertia>
+                <ixx>0.001230333</ixx>
+                <iyy>0.001230333</iyy>
+                <izz>0.00245</izz>
+            </inertia>
+        </inertial>
+        
     </link>
     
     <link name="right_wheel">
-        <pose>0 -0.125 0.1 1.5707963267949 0 0</pose>
+        <pose>0 -0.104 0.07 1.5707963267949 0 0</pose>
 
         <collision name="collision">
             <geometry>
                 <cylinder>
-                    <radius>.1</radius>
-                    <length>.05</length>
+                    <radius>.07</radius>
+                    <length>.008</length>
                 </cylinder>
             </geometry>
 
             <surface>
                 <friction>
                     <ode>
+                        <mu>1.0</mu>
+                        <mu2>1.0</mu2>
                         <slip1>0</slip1>
                         <slip2>0</slip2>
                     </ode>
@@ -150,15 +155,26 @@
         <visual name="visual">
             <geometry>
                 <cylinder>
-                    <radius>.1</radius>
-                    <length>.05</length>
+                    <radius>.07</radius>
+                    <length>.008</length>
                 </cylinder>
             </geometry>
         </visual>
+
+        <inertial>
+            <mass>.014</mass>
+            <pose>0 0 0 0 0 0</pose>
+            <inertia>
+                <ixx>0.001230333</ixx>
+                <iyy>0.001230333</iyy>
+                <izz>0.00245</izz>
+            </inertia>
+        </inertial>
+        
     </link>
 
     <joint type="revolute" name="left_wheel_hinge">
-        <pose>0 0 -0.025 0 0 0</pose>
+        <pose>0 0 -0.004 0 0 0</pose>
         <child>left_wheel</child>
         <parent>chassis</parent>
         <axis>
@@ -167,7 +183,7 @@
     </joint>
 
     <joint type="revolute" name="right_wheel_hinge">
-        <pose>0 0 -0.025 0 0 0</pose>
+        <pose>0 0 -0.004 0 0 0</pose>
         <child>right_wheel</child>
         <parent>chassis</parent>
         <axis>
@@ -176,11 +192,23 @@
     </joint>
 
     <plugin name="object_controller" filename="libgazebo_ros_planar_move.so">
+        <alwaysOn>true</alwaysOn>
         <commandTopic>cmd_vel</commandTopic>
         <odometryTopic>odom</odometryTopic>
         <odometryFrame>odom</odometryFrame>
-        <odometryRate>20.0</odometryRate>
+        <odometryRate>50.0</odometryRate>
         <robotBaseFrame>chassis</robotBaseFrame>
+    </plugin>
+
+    <plugin name="p3d_base_controller" filename="libgazebo_ros_p3d.so">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>50.0</updateRate>
+        <bodyName>chassis</bodyName>
+        <topicName>ground_truth/state</topicName>
+        <gaussianNoise>0</gaussianNoise>
+        <frameName>world</frameName>
+        <xyzOffsets>0 0 0</xyzOffsets>
+        <rpyOffsets>0 0 0</rpyOffsets>
     </plugin>
 
 </model>

@@ -9,16 +9,6 @@
     <link name='chassis'>
         <pose>0 0 0.1 0 0 0</pose>
 
-        <inertial>
-            <mass>10.0</mass>
-            <pose>0.0 0 0.1 0 0 0</pose>
-            <inertia>
-                <ixx>0.5</ixx>
-                <iyy>1.0</iyy>
-                <izz>0.1</izz>
-            </inertia>
-        </inertial>
-
         <collision name='collision'>
             <geometry>
                 <box>
@@ -35,6 +25,7 @@
                 </box>
             </geometry>
         </visual>
+
     </link>
 
     <link name="wheel1">
@@ -51,6 +42,8 @@
             <surface>
                 <friction>
                     <ode>
+                        <mu>1.0</mu>
+                        <mu2>1.0</mu2>
                         <slip1>1.0</slip1>
                         <slip2>1.0</slip2>
                     </ode>
@@ -66,6 +59,17 @@
                 </cylinder>
             </geometry>
         </visual>
+
+        <inertial>
+            <mass>0.4</mass>
+            <pose>0 0 0 0 0 0</pose>
+            <inertia>
+                <ixx>0.002708333</ixx>
+                <iyy>0.002708333</iyy>
+                <izz>0.005</izz>
+            </inertia>
+        </inertial>
+
     </link>
 
     <link name="wheel2">
@@ -82,6 +86,8 @@
             <surface>
                 <friction>
                     <ode>
+                        <mu>1.0</mu>
+                        <mu2>1.0</mu2>
                         <slip1>1.0</slip1>
                         <slip2>1.0</slip2>
                     </ode>
@@ -97,6 +103,17 @@
                 </cylinder>
             </geometry>
         </visual>
+
+        <inertial>
+            <mass>0.4</mass>
+            <pose>0 0 0 0 0 0</pose>
+            <inertia>
+                <ixx>0.002708333</ixx>
+                <iyy>0.002708333</iyy>
+                <izz>0.005</izz>
+            </inertia>
+        </inertial>
+
     </link>
 
     <link name="wheel3">
@@ -113,6 +130,8 @@
             <surface>
                 <friction>
                     <ode>
+                        <mu>1.0</mu>
+                        <mu2>1.0</mu2>
                         <slip1>1.0</slip1>
                         <slip2>1.0</slip2>
                     </ode>
@@ -128,6 +147,17 @@
                 </cylinder>
             </geometry>
         </visual>
+
+        <inertial>
+            <mass>0.4</mass>
+            <pose>0 0 0 0 0 0</pose>
+            <inertia>
+                <ixx>0.002708333</ixx>
+                <iyy>0.002708333</iyy>
+                <izz>0.005</izz>
+            </inertia>
+        </inertial>
+
     </link>
 
     <link name="wheel4">
@@ -144,6 +174,8 @@
             <surface>
                 <friction>
                     <ode>
+                        <mu>1.0</mu>
+                        <mu2>1.0</mu2>
                         <slip1>1.0</slip1>
                         <slip2>1.0</slip2>
                     </ode>
@@ -159,6 +191,17 @@
                 </cylinder>
             </geometry>
         </visual>
+
+        <inertial>
+            <mass>0.4</mass>
+            <pose>0 0 0 0 0 0</pose>
+            <inertia>
+                <ixx>0.002708333</ixx>
+                <iyy>0.002708333</iyy>
+                <izz>0.005</izz>
+            </inertia>
+        </inertial>
+
     </link>
 
     <joint type="revolute" name="wheel1_hinge">
@@ -201,8 +244,19 @@
         <commandTopic>cmd_vel</commandTopic>
         <odometryTopic>odom</odometryTopic>
         <odometryFrame>odom</odometryFrame>
-        <odometryRate>20.0</odometryRate>
+        <odometryRate>50.0</odometryRate>
         <robotBaseFrame>chassis</robotBaseFrame>
+    </plugin>
+
+    <plugin name="p3d_base_controller" filename="libgazebo_ros_p3d.so">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>50.0</updateRate>
+        <bodyName>chassis</bodyName>
+        <topicName>ground_truth/state</topicName>
+        <gaussianNoise>0</gaussianNoise>
+        <frameName>world</frameName>
+        <xyzOffsets>0 0 0</xyzOffsets>
+        <rpyOffsets>0 0 0</rpyOffsets>
     </plugin>
 
 </model>

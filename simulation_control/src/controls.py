@@ -2,7 +2,6 @@
 import rospy
 import numpy as np
 import math
-import time
 from geometry_msgs.msg import Twist
 from simulation_control.msg import InputValues
 
@@ -64,10 +63,6 @@ def calculate_odom_values(robot_type, jacobian, wheel_speed, curr_orientation):
     values.angular.x = 0
     values.angular.y = 0
 
-    rot_matrix = np.array( [[math.cos(curr_orientation),-math.sin(curr_orientation),0],
-                            [math.sin(curr_orientation),math.cos(curr_orientation),0],
-                            [0,0,1]])
-
     if(robot_type == 2):
         j_1p = np.dot(np.linalg.inv(np.dot(np.transpose(jacobian),jacobian)),np.transpose(jacobian))
         temp_values = np.dot(j_1p,wheel_speed)
@@ -85,33 +80,29 @@ def callback(data):
     global x
     global y
     global theta
-    global start
 
     control_data = Twist()
 
-    
     j_1, j_2 = get_jacobian_and_wheel_speed(data)
     control_data = calculate_odom_values(data.robot_type,j_1,j_2,theta)
 
-    end = time.time()
 
-    theta += (control_data.angular.z*(end - start))
-    x += ((control_data.linear.x*(end - start))*math.cos(theta) - (control_data.linear.y*(end - start))*math.sin(theta))
-    y += ((control_data.linear.x*(end - start))*math.sin(theta) + (control_data.linear.y*(end - start))*math.cos(theta))
+    theta += (control_data.angular.z*0.1)
+    x += ((control_data.linear.x*0.1)*math.cos(theta) - (control_data.linear.y*0.1)*math.sin(theta))
+    y += ((control_data.linear.x*0.1)*math.sin(theta) + (control_data.linear.y*0.1)*math.cos(theta))
 
-    print("X_i = %f\nY_i = %f\nTheta_i = %f\n\n\n\n" %(x, y, theta))
-    
-    start = time.time()
+    rospy.loginfo("\nX = %f\nY = %f\nTheta = %f\n\n\n\n" %(x, y, theta))
+
 
     odom_pub.publish(control_data)
+    rospy.sleep(rospy.Duration(0.1))
 
 if __name__ == '__main__':
     x = X_0
     y = Y_0
     theta = THETA_0
-    start = time.time()
-
-    rospy.init_node("odom_sim", anonymous=True)
+    
+    rospy.init_node("odometry_sim", anonymous=True)
     rospy.Subscriber("vmr_input_data",InputValues,callback, queue_size=10)
     odom_pub = rospy.Publisher("cmd_vel",Twist,queue_size=10)
     rospy.spin()
