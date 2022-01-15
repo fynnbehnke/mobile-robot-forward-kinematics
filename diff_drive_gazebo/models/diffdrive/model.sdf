@@ -98,12 +98,12 @@
 
             <surface>
                 <friction>
-                    <ode>
-                        <mu>1.0</mu>
-                        <mu2>1.0</mu2>
-                        <slip1>0</slip1>
-                        <slip2>0</slip2>
-                    </ode>
+                    <torsional>
+                        <coefficient>1.0</coefficient>
+                        <ode>
+                            <slip>0</slip>
+                        </ode>
+                    </torsional>
                 </friction>
             </surface>
         </collision>
@@ -142,12 +142,12 @@
 
             <surface>
                 <friction>
-                    <ode>
-                        <mu>1.0</mu>
-                        <mu2>1.0</mu2>
-                        <slip1>0</slip1>
-                        <slip2>0</slip2>
-                    </ode>
+                    <torsional>
+                        <coefficient>1.0</coefficient>
+                        <ode>
+                            <slip>0</slip>
+                        </ode>
+                    </torsional>
                 </friction>
             </surface>
         </collision>
