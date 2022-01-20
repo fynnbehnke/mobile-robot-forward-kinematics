@@ -5,9 +5,7 @@ import math
 from geometry_msgs.msg import Twist
 from simulation_control.msg import InputValues
 
-X_0 = 0.0
-Y_0 = 0.0
-THETA_0 = 0.0
+TIMESTEP = 0.05
 
 def get_jacobian_and_wheel_speed(robot_data):
     
@@ -77,33 +75,19 @@ def calculate_odom_values(robot_type, jacobian, wheel_speed, curr_orientation):
 
 
 def callback(data):
-    global x
-    global y
-    global theta
 
     control_data = Twist()
 
     j_1, j_2 = get_jacobian_and_wheel_speed(data)
     control_data = calculate_odom_values(data.robot_type,j_1,j_2,theta)
 
-
-    theta += (control_data.angular.z*0.1)
-    x += ((control_data.linear.x*0.1)*math.cos(theta) - (control_data.linear.y*0.1)*math.sin(theta))
-    y += ((control_data.linear.x*0.1)*math.sin(theta) + (control_data.linear.y*0.1)*math.cos(theta))
-
-    rospy.loginfo("\nX = %f\nY = %f\nTheta = %f\n\n\n\n" %(x, y, theta))
-
-
     odom_pub.publish(control_data)
-    rospy.sleep(rospy.Duration(0.1))
+    rospy.sleep(rospy.Duration(TIMESTEP))
 
 if __name__ == '__main__':
-    x = X_0
-    y = Y_0
-    theta = THETA_0
     
     rospy.init_node("odometry_sim", anonymous=True)
-    rospy.Subscriber("vmr_input_data",InputValues,callback, queue_size=10)
-    odom_pub = rospy.Publisher("cmd_vel",Twist,queue_size=10)
+    rospy.Subscriber("vmr_input_data",InputValues,callback, queue_size=1)
+    odom_pub = rospy.Publisher("cmd_vel",Twist,queue_size=1)
     rospy.spin()
 
