@@ -54,7 +54,7 @@ def get_jacobian_and_wheel_speed(robot_data):
     else:
         rospy.loginfo('%d is not a valid Robot Type!\nRobot Types:\n1 = Differential Drive Mobile Robot\n2 = Omnidirectional Drive Mobile Robot\n3 = Tricycle Drive Mobile Robot', robot_data.robot_type)
 
-def calculate_odom_values(robot_type, jacobian, wheel_speed, curr_orientation):
+def calculate_odom_values(robot_type, jacobian, wheel_speed):
     values = Twist()
 
     values.linear.z = 0
@@ -79,7 +79,7 @@ def callback(data):
     control_data = Twist()
 
     j_1, j_2 = get_jacobian_and_wheel_speed(data)
-    control_data = calculate_odom_values(data.robot_type,j_1,j_2,theta)
+    control_data = calculate_odom_values(data.robot_type,j_1,j_2)
 
     odom_pub.publish(control_data)
     rospy.sleep(rospy.Duration(TIMESTEP))
